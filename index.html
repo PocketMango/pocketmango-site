@@ -1,158 +1,804 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pocket Mango</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pocket Mango | Portable Charging Kiosk</title>
+  <meta
+    name="description"
+    content="Pocket Mango portable charging kiosks for bars, restaurants, nightlife, and events."
+  />
+  <style>
+    :root {
+      --bg: #050608;
+      --bg-soft: #0b0d10;
+      --panel: rgba(255, 255, 255, 0.05);
+      --panel-strong: rgba(255, 255, 255, 0.08);
+      --border: rgba(255, 255, 255, 0.09);
+      --text: #f5f7fa;
+      --muted: #a9b0bb;
+      --accent: #e1a15c;
+      --accent-soft: #f1b36f;
+      --logo-dark: #3b4048;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      --radius: 28px;
+      --max: 1240px;
+    }
 
-<style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0b0b0d;
-    color: white;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-.container {
-    max-width: 1100px;
-    margin: auto;
-    padding: 20px;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 0;
-}
+    body {
+      margin: 0;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(225, 161, 92, 0.12), transparent 24%),
+        radial-gradient(circle at 85% 12%, rgba(225, 161, 92, 0.08), transparent 20%),
+        linear-gradient(180deg, #040506 0%, #0a0b0e 35%, #07080a 100%);
+      line-height: 1.45;
+      overflow-x: hidden;
+    }
 
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-}
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-.hero {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-    padding: 60px 0;
-}
+    img {
+      display: block;
+      max-width: 100%;
+    }
 
-.hero-text {
-    max-width: 500px;
-}
+    .container {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
 
-.hero h1 {
-    font-size: 48px;
-    margin-bottom: 20px;
-}
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(18px);
+      background: rgba(6, 8, 10, 0.72);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
 
-.hero p {
-    color: #aaa;
-}
+    .nav-inner {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
 
-.button {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 14px 24px;
-    background: #e1a15c;
-    color: black;
-    text-decoration: none;
-    border-radius: 10px;
-    font-weight: bold;
-}
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-.real-machine {
-    width: 320px;
-    border-radius: 20px;
-    box-shadow: 0 40px 80px rgba(0,0,0,0.7);
-}
+    .brand-icon {
+      position: relative;
+      width: 28px;
+      height: 28px;
+      border: 5px solid var(--logo-dark);
+      border-radius: 50%;
+      flex: 0 0 auto;
+    }
 
-.section {
-    padding: 60px 0;
-    text-align: center;
-}
+    .brand-icon::after {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      top: -10px;
+      right: -12px;
+      box-shadow: 0 0 18px rgba(225, 161, 92, 0.4);
+    }
 
-.cards {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
+    .brand-text {
+      font-size: 1.45rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
 
-.card {
-    background: #151518;
-    padding: 25px;
-    border-radius: 15px;
-    width: 250px;
-}
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      color: var(--muted);
+      font-size: 0.97rem;
+    }
 
-.footer {
-    text-align: center;
-    padding: 30px;
-    color: #777;
-}
-</style>
+    .nav-links a:hover {
+      color: white;
+    }
+
+    .nav-cta {
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--accent-soft), var(--accent));
+      color: #1b140d;
+      font-weight: 700;
+      box-shadow: 0 10px 26px rgba(225, 161, 92, 0.18);
+    }
+
+    .hero {
+      position: relative;
+      padding: 56px 0 40px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 70% 35%, rgba(255,255,255,0.03), transparent 18%),
+        radial-gradient(circle at 74% 28%, rgba(225,161,92,0.14), transparent 18%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 44px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 20px;
+    }
+
+    .eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 14px rgba(225, 161, 92, 0.7);
+    }
+
+    h1 {
+      margin: 0 0 20px;
+      font-size: clamp(3.2rem, 7vw, 6.4rem);
+      line-height: 0.92;
+      letter-spacing: -0.06em;
+      font-weight: 700;
+      max-width: 760px;
+    }
+
+    .hero-subtext {
+      font-size: 1.16rem;
+      color: var(--muted);
+      max-width: 620px;
+      margin: 0 0 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+      padding: 0 24px;
+      border-radius: 16px;
+      font-weight: 700;
+      transition: transform 0.18s ease, opacity 0.18s ease, background 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(180deg, var(--accent-soft), var(--accent));
+      color: #1d150e;
+      box-shadow: 0 18px 40px rgba(225, 161, 92, 0.16);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .hero-notes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hero-notes span {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .product-stage {
+      position: relative;
+      min-height: 760px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-glow {
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(225, 161, 92, 0.2), transparent 62%);
+      filter: blur(22px);
+      z-index: 0;
+    }
+
+    .product-ring {
+      position: absolute;
+      width: 640px;
+      height: 640px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      opacity: 0.6;
+      z-index: 0;
+    }
+
+    .product-card {
+      position: relative;
+      z-index: 2;
+      width: min(520px, 96%);
+      padding: 26px;
+      border-radius: 34px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
+        radial-gradient(circle at top, rgba(255,255,255,0.05), transparent 45%);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 35px 100px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+    }
+
+    .real-machine {
+      width: 100%;
+      border-radius: 24px;
+      box-shadow: 0 30px 90px rgba(0,0,0,0.6);
+    }
+
+    .product-caption {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .product-caption strong {
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .section {
+      padding: 58px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      margin: 0 0 14px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: var(--muted);
+      max-width: 760px;
+      margin: 0 auto 30px;
+      font-size: 1.08rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      margin-top: 28px;
+    }
+
+    .feature-card,
+    .info-card {
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .feature-card {
+      padding: 28px;
+    }
+
+    .step-label {
+      color: var(--accent);
+      font-size: 0.84rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .feature-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.5rem;
+      letter-spacing: -0.03em;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .pricing-layout,
+    .venues-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px;
+      margin-top: 26px;
+      align-items: stretch;
+    }
+
+    .info-card {
+      padding: 30px;
+    }
+
+    .kicker {
+      color: var(--accent);
+      font-size: 0.84rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .info-card h3 {
+      margin: 0 0 10px;
+      font-size: 2rem;
+      letter-spacing: -0.04em;
+    }
+
+    .info-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .price {
+      font-size: 4rem;
+      line-height: 0.95;
+      margin: 14px 0 10px;
+      letter-spacing: -0.08em;
+      font-weight: 700;
+    }
+
+    .price span {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .list {
+      list-style: none;
+      padding: 0;
+      margin: 22px 0 0;
+    }
+
+    .list li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 14px;
+      color: var(--muted);
+    }
+
+    .list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(225, 161, 92, 0.35);
+    }
+
+    .glass-panel {
+      min-height: 100%;
+      padding: 24px;
+      border-radius: 32px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025)),
+        radial-gradient(circle at top, rgba(225,161,92,0.08), transparent 45%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 28px 90px rgba(0,0,0,0.38);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .glass-panel img {
+      width: min(440px, 100%);
+      border-radius: 24px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.06);
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.24rem;
+      margin-bottom: 6px;
+      letter-spacing: -0.03em;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .cta-band {
+      padding: 34px;
+      border-radius: 34px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025)),
+        radial-gradient(circle at center top, rgba(225,161,92,0.12), transparent 48%);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 28px 90px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+
+    .cta-band h2 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      letter-spacing: -0.05em;
+      line-height: 0.96;
+    }
+
+    .cta-band p {
+      max-width: 720px;
+      margin: 0 auto 22px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .footer {
+      padding: 34px 0 48px;
+      margin-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .footer-grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid,
+      .pricing-layout,
+      .venues-layout,
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .product-stage {
+        min-height: auto;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        width: min(var(--max), calc(100% - 24px));
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 36px;
+      }
+
+      h1 {
+        font-size: clamp(2.8rem, 14vw, 4.4rem);
+      }
+
+      .hero-subtext {
+        font-size: 1.02rem;
+      }
+
+      .product-stage {
+        padding-top: 10px;
+      }
+
+      .product-card {
+        padding: 16px;
+      }
+
+      .cta-band {
+        padding: 24px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="#" class="brand">
+        <span class="brand-icon"></span>
+        <span class="brand-text">pocket mango</span>
+      </a>
 
-<div class="container">
+      <div class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#venues">For venues</a>
+        <a href="mailto:hello@pocketmango.com">Contact</a>
+      </div>
 
-<header>
-    <div class="logo">pocket mango</div>
-    <a href="mailto:hello@pocketmango.com" class="button">Contact</a>
-</header>
-
-<div class="hero">
-    <div class="hero-text">
-        <h1>Stay charged.<br>Stay out.</h1>
-        <p>Portable charging kiosks for bars, restaurants, and events.</p>
-        <a href="#how" class="button">How It Works</a>
+      <a class="nav-cta" href="mailto:hello@pocketmango.com?subject=Pocket%20Mango%20Venue%20Inquiry">
+        Bring Pocket Mango In
+      </a>
     </div>
+  </nav>
 
-    <!-- YOUR REAL IMAGE -->
-    <img src="kiosk.png" alt="Pocket Mango Kiosk" class="real-machine">
-</div>
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            Portable power for bars, restaurants, events, and nightlife
+          </div>
 
-<div id="how" class="section">
-    <h2>How It Works</h2>
+          <h1>Power that feels built in.</h1>
 
-    <div class="cards">
-        <div class="card">
-            <h3>1. Tap</h3>
-            <p>Start at the kiosk in seconds.</p>
+          <p class="hero-subtext">
+            Pocket Mango helps guests stay charged without leaving the moment.
+            A clean, modern charging kiosk designed for real venues and real traffic.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#how" class="btn btn-primary">How It Works</a>
+            <a href="mailto:hello@pocketmango.com?subject=I%20want%20Pocket%20Mango%20at%20my%20venue" class="btn btn-secondary">
+              Partner With Us
+            </a>
+          </div>
+
+          <div class="hero-notes">
+            <span>Fast rental flow</span>
+            <span>Modern kiosk presence</span>
+            <span>Built for high-traffic spaces</span>
+          </div>
         </div>
 
-        <div class="card">
-            <h3>2. Grab</h3>
-            <p>Take a portable charger.</p>
-        </div>
+        <div class="product-stage">
+          <div class="product-glow"></div>
+          <div class="product-ring"></div>
 
-        <div class="card">
-            <h3>3. Return</h3>
-            <p>Bring it back when you're done.</p>
+          <div class="product-card">
+            <img src="kiosk.png" alt="Pocket Mango Kiosk" class="real-machine">
+            <div class="product-caption">
+              <strong>Pocket Mango Kiosk</strong>
+              <span>Modern charging, venue-ready design</span>
+            </div>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="container">
+        <h2 class="section-title">Simple by design.</h2>
+        <p class="section-subtitle">
+          Guests don’t need a tutorial. They just need power. Pocket Mango keeps the experience quick, clean, and intuitive.
+        </p>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="step-label">Step 01</div>
+            <h3>Start at the kiosk</h3>
+            <p>Begin the rental right on the screen in seconds with a simple on-site flow.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="step-label">Step 02</div>
+            <h3>Grab a battery</h3>
+            <p>Take a portable charger and keep moving without leaving the venue.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="step-label">Step 03</div>
+            <h3>Return when done</h3>
+            <p>Slide it back into an open slot when your battery is back where it needs to be.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="container">
+        <h2 class="section-title">Clear pricing. No guesswork.</h2>
+        <p class="section-subtitle">
+          Guest-friendly pricing that feels easy to understand in the moment.
+        </p>
+
+        <div class="pricing-layout">
+          <div class="info-card">
+            <div class="kicker">Guest pricing</div>
+            <h3>Designed for convenience</h3>
+            <div class="price">$6 <span>/ hour</span></div>
+            <p>Simple, direct, and built for on-the-go charging.</p>
+
+            <ul class="list">
+              <li>Easy kiosk experience</li>
+              <li>Portable power without leaving your seat, table, or event</li>
+              <li>Great fit for bars, restaurants, venues, and nightlife</li>
+            </ul>
+          </div>
+
+          <div class="glass-panel">
+            <img src="kiosk.png" alt="Pocket Mango charging kiosk">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="venues">
+      <div class="container">
+        <h2 class="section-title">Made to belong in the room.</h2>
+        <p class="section-subtitle">
+          Pocket Mango is built for spaces that care about guest experience, visual presentation, and staying current.
+        </p>
+
+        <div class="venues-layout">
+          <div class="info-card">
+            <div class="kicker">Why venues like it</div>
+            <h3>A cleaner guest experience</h3>
+            <p>
+              A charging kiosk gives people one less reason to leave early, stress over a dead phone, or miss what’s happening around them.
+            </p>
+
+            <ul class="list">
+              <li>Looks intentional in modern spaces</li>
+              <li>Useful for longer stays and higher dwell time</li>
+              <li>Strong fit for hospitality, nightlife, and events</li>
+            </ul>
+
+            <div class="stats">
+              <div class="stat">
+                <strong>Modern</strong>
+                <span>Clean visual presence</span>
+              </div>
+              <div class="stat">
+                <strong>Useful</strong>
+                <span>Real guest convenience</span>
+              </div>
+              <div class="stat">
+                <strong>Memorable</strong>
+                <span>A service people notice</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="kicker">Venue inquiries</div>
+            <h3>Bring Pocket Mango to your location</h3>
+            <p>
+              Interested in placing a kiosk at your bar, restaurant, event, or venue? Reach out and let’s talk through placement.
+            </p>
+
+            <p style="margin-top: 22px; color: white; font-weight: 700; font-size: 1.08rem;">
+              hello@pocketmango.com
+            </p>
+
+            <div class="hero-actions" style="margin-top: 24px; margin-bottom: 0;">
+              <a class="btn btn-primary" href="mailto:hello@pocketmango.com?subject=Pocket%20Mango%20Partnership%20Inquiry">
+                Email Us
+              </a>
+              <a class="btn btn-secondary" href="#top">
+                Back to Top
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-band">
+          <h2>Modern power for places people want to stay.</h2>
+          <p>
+            Pocket Mango helps venues offer a smarter convenience with a cleaner look and a more polished guest experience.
+          </p>
+          <a class="btn btn-primary" href="mailto:hello@pocketmango.com?subject=I%20want%20Pocket%20Mango%20at%20my%20venue">
+            Bring Pocket Mango In
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <a href="#" class="brand">
+        <span class="brand-icon"></span>
+        <span class="brand-text">pocket mango</span>
+      </a>
+
+      <div class="footer-links">
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#venues">For venues</a>
+        <a href="mailto:hello@pocketmango.com">hello@pocketmango.com</a>
+      </div>
     </div>
-</div>
-
-<div class="section">
-    <h2>Simple Pricing</h2>
-    <p>$6 per hour</p>
-</div>
-
-<div class="section">
-    <h2>For Venues</h2>
-    <p>Bring Pocket Mango to your location.</p>
-    <a href="mailto:hello@pocketmango.com" class="button">Partner With Us</a>
-</div>
-
-<div class="footer">
-    © Pocket Mango
-</div>
-
-</div>
-
+  </footer>
 </body>
 </html>
